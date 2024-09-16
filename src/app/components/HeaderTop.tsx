@@ -5,7 +5,7 @@ import {BsFacebook, BsInstagram, BsLinkedin, BsTwitterX} from 'react-icons/bs'
 const HeaderTop = () => {
     return (
         <div className="border-b border-gray-200 hidden sm:block">
-            <div className="container py-4">
+            <div className="container py-2">
                 <div className="flex justify-between items-center">
                     <div className="hidden lg:flex gap-1">
                         <div className="header_top__icon_wrapper">
@@ -26,11 +26,11 @@ const HeaderTop = () => {
                         THIS WEEK ORDER OVER - $15
                     </div>
                     <div className="flex gap-4">
-                        <select name="currency" id="currency" className="text-gray-500 text-xs w-[70px]">
+                        <select name="currency" id="currency" className="text-gray-500 text-xs w-[70px] bg-white">
                             <option value="usd">USD $</option>
                             <option value="brl">BRL R$</option>
                         </select>
-                        <select name="language" id="language" className="text-gray-500 text-xs w-[40px]">
+                        <select name="language" id="language" className="text-gray-500 text-xs w-[40px] bg-white">
                             <option value="en">EN</option>
                             <option value="pt">PT</option>
                         </select>
