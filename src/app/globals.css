@@ -12,4 +12,30 @@
   .header_top__icon_wrapper {
     @apply bg-gray-200 rounded-md p-1.5 text-sm cursor-pointer hover:bg-burgundy hover:text-white
   }
+
+  .navbar__link {
+    @apply relative cursor-pointer
+  }
+
+  .navbar__link:hover {
+    color: #8b0000;
+    transition: all 0.4s;
+  }
+
+  .navbar__link::after {
+    position: absolute;
+    content: "";
+    background-color: #8b0000;
+    height: 3px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+    scale: 0;
+    transform-origin: left;
+    transition: all 0.4s;
+  }
+
+  .navbar__link:hover::after {
+    scale: 1;
+  }
 }
