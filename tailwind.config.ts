@@ -8,9 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: "15px",
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        burgundy: "#8b0000",
+        "burgundy-dark": "#4b0f14",
+        blackish: "#1a1a1a",
       },
     },
   },
