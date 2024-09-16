@@ -9,7 +9,7 @@ import {HiOutlineShoppingCart} from "react-icons/hi2";
 const HeaderMain = () => {
     return (
         <div className="border-b border-gray-200 py-2">
-            <div className="container sm:flex justify-between items-center">
+            <div className="container flex flex-col sm:flex-row justify-between items-center">
                 <div>
                     <Logo width={80} height={80} />
                 </div>
@@ -21,11 +21,11 @@ const HeaderMain = () => {
                     <BiUser/>
                     <div className="relative">
                         <FiHeart/>
-                        <div className="bg-red-600 rounded-full absolute top-0 right-0 w-3 h-3 text-[10px] leading-none text-white grid place-items-center translate-x-0.5 -translate-y-0.5">0</div>
+                        <div className="icon__badge">0</div>
                     </div>
                     <div className="relative">
                         <HiOutlineShoppingCart/>
-                        <div className="bg-red-600 rounded-full absolute top-0 right-0 w-3 h-3 text-[10px] leading-none text-white grid place-items-center translate-x-0.5 -translate-y-0.5">0</div>
+                        <div className="icon__badge">0</div>
                     </div>
                 </div>
             </div>
