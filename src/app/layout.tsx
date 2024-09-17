@@ -6,6 +6,9 @@ import HeaderMain from "@/app/components/HeaderMain";
 import Navbar from "@/app/components/Navbar";
 import MobileNavbar from "@/app/components/MobileNavbar";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
