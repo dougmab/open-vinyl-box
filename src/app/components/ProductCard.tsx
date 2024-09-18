@@ -17,7 +17,7 @@ const ProductCard = (props: ProductProps) => {
 
     const generateRating = (rating: number) => {
         rating = Math.round(rating * 2) / 2;
-        let ratingResult = []
+        const ratingResult = []
         for (let i = 0; i < 5; i++) {
             if (i < rating && rating < i + 1) {
                 ratingResult.push(<FaStarHalfAlt key={i}/>);
