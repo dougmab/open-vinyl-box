@@ -6,7 +6,7 @@ import {AiOutlineAppstore, AiOutlineHome} from "react-icons/ai";
 
 const MobileNavbar = () => {
     return (
-        <div className="lg:hidden fixed bottom-0 w-full bg-white left-1/2 -translate-x-1/2 max-w-[500px] px-8">
+        <div className="box-border lg:hidden fixed bottom-0 w-full bg-white left-1/2 -translate-x-1/2 max-w-[500px] px-8 z-40">
             <div className="flex justify-between text-xl py-2">
                 <FiMenu/>
 
