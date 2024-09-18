@@ -20,7 +20,7 @@ const Hero = () => {
     const slideData: SlideProps[] = [
         {
             id: 0,
-            img: "/images/florencia-viadana.jpg",
+            img: "/images/slide_1.jpg",
             title: "Trending Records",
             mainTitle: "NEW ARRIVALS",
             price: "$20",
@@ -28,7 +28,7 @@ const Hero = () => {
         },
         {
             id: 1,
-            img: "/images/juliane-mergener.jpg",
+            img: "/images/slide_2.jpg",
             title: "Best Record Players",
             mainTitle: "LISTEN WITH THE BEST QUALITY",
             price: "$350",
@@ -36,7 +36,7 @@ const Hero = () => {
         },
         {
             id: 2,
-            img: "/images/jp-valery.jpg",
+            img: "/images/slide_3.jpg",
             title: "Sale Offer",
             mainTitle: "THE LOWEST PRICES",
             price: "$15",
