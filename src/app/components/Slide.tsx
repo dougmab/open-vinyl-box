@@ -2,12 +2,12 @@ import React from 'react'
 import Image from "next/image";
 
 interface SlideProps {
-    id: number,
-    img: string,
-    title: string,
-    mainTitle: string,
-    price: string
-    contentSide?: "left" | "right"
+    id: number;
+    img: string;
+    title: string;
+    mainTitle: string;
+    price: string;
+    contentSide?: "left" | "right";
 }
 
 const Slide = (props: SlideProps) => {
