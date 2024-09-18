@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased pb-[36px] lg:pb-0` /* padding for MobileNavbar */}
       >
       <HeaderTop/>
       <HeaderMain/>
