@@ -1,14 +1,23 @@
 'use client';
 
-import {createContext, useContext, useState} from "react";
-import {setCookie} from "nookies";
+import {createContext, useContext, useEffect, useState} from "react";
+import {destroyCookie, parseCookies, setCookie} from "nookies";
 import api from "@/lib/api";
 import {Router} from "next/router";
 import {useRouter} from "next/navigation";
+import {parseCookie} from "next/dist/compiled/@edge-runtime/cookies";
 
 interface SignInCredentials {
   email: string,
   password: string
+}
+
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 interface AuthContext {
@@ -17,16 +26,23 @@ interface AuthContext {
   signIn: (credentials: SignInCredentials) => Promise<void>
 }
 
-// TODO define User interface
-interface User {
-
-}
-
 export const AuthContext = createContext({} as AuthContext);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
   const router = useRouter();
   const [ user, setUser] = useState<User | null>(null);
+
+  // Recover user data from the token
+  useEffect(() => {
+    const { 'ovb-token': token } = parseCookies();
+    if (token) {
+      api.get('/user/me').then(({ data }) => {
+        setUser(data.result);
+      }).catch(() => {
+       destroyCookie(undefined, 'ovb.token');
+      });
+    }
+  }, []);
 
   const isAuthenticated = !!user;
 
@@ -41,7 +57,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
 
     api.defaults.headers['Authorization'] = `Bearer ${data.result.accessToken}`
 
-    router.push('/');
+    setUser(data.result.user);
+
+    router.back();
   }
 
   return (
