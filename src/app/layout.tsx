@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import HeaderTop from "@/app/components/HeaderTop";
-import HeaderMain from "@/app/components/HeaderMain";
-import Navbar from "@/app/components/Navbar";
-import MobileNavbar from "@/app/components/MobileNavbar";
+import HeaderTop from "@/components/HeaderTop";
+import HeaderMain from "@/components/HeaderMain";
+import Navbar from "@/components/Navbar";
+import MobileNavbar from "@/components/MobileNavbar";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Footer from "@/app/components/Footer";
+import Footer from "@/components/Footer";
+import {AuthContext, AuthProvider} from "@/contexts/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,12 +30,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <AuthProvider>
+      <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased pb-[36px] lg:pb-0` /* padding for MobileNavbar */}
       >
@@ -45,6 +47,7 @@ export default function RootLayout({
       {children}
       <Footer/>
       </body>
-    </html>
+      </html>
+    </AuthProvider>
   );
 }
