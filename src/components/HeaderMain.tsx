@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Logo from "../../../public/images/logo.svg"
+import Logo from "../../public/images/logo.svg"
 import {BsSearch} from "react-icons/bs";
 import {BiUser} from "react-icons/bi";
 import {FiHeart} from "react-icons/fi";

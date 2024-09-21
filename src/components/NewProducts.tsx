@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductCard, {ProductProps} from "@/app/components/ProductCard";
+import ProductCard, {ProductProps} from "@/components/ProductCard";
 
 // TODO fetch products from API
 const productsData: ProductProps[] = [

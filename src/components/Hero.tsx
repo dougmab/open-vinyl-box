@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Slider, {Settings} from "react-slick";
-import Slide, {SlideProps} from "@/app/components/Slide";
+import Slide, {SlideProps} from "@/components/Slide";
 
 const Hero = () => {
 
