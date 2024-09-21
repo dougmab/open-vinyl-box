@@ -1,8 +1,10 @@
-import Hero from "@/app/components/Hero";
-import NewProducts from "@/app/components/NewProducts";
+'use client';
+
+import Hero from "@/components/Hero";
+import NewProducts from "@/components/NewProducts";
 
 export default function Home() {
-    return (
+     return (
         <main>
             <Hero/>
             <NewProducts/>
