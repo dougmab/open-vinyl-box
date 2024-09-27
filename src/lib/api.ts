@@ -1,9 +1,11 @@
 import axios from "axios";
-import {parseCookies} from "nookies";
-import * as next from "next";
+import {getCookie} from "cookies-next";
+import {ReadonlyRequestCookies} from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
-export const getApiClient = (ctx?: Pick<next.NextPageContext, 'req'>) => {
-  const {'ovb.token': token} = parseCookies(ctx)
+type cookiesCallable = () => ReadonlyRequestCookies;
+
+export const getApiClient = (cookies?: cookiesCallable) => {
+  const token = getCookie("ovb.token", { cookies });
 
   return axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
