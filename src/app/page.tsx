@@ -1,7 +1,7 @@
 'use client';
 
 import Hero from "@/components/Hero";
-import NewProducts from "@/components/NewProducts";
+import NewProducts from "@/components/product/NewProducts";
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
