@@ -6,6 +6,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import Button from "@/components/Button";
 import api from "@/lib/api";
 import Link from "next/link";
+import {useSearchParams} from "next/navigation";
 
 interface CreateUser {
   firstName: string;
@@ -17,6 +18,7 @@ interface CreateUser {
 
 const Page = () => {
   const {signIn} = useContext(AuthContext);
+  const redirect = useSearchParams().get('redirect');
 
   const {
     register,
@@ -29,8 +31,7 @@ const Page = () => {
                                                        firstName,
                                                        lastName,
                                                        email,
-                                                       password,
-                                                       repeatedPassword
+                                                       password
                                                      }: CreateUser) => {
     const {data} = await api.post('/user', {
       firstName, lastName, email, password
@@ -109,7 +110,8 @@ const Page = () => {
           </Button>
         </form>
         <div className="mt-2 text-gray-500 text-sm">
-          Already registered? <Link href="/login" className="text-blue-600">Sign in</Link>
+          Already registered? <Link href={`/login${redirect ? '?redirect=' + encodeURIComponent(redirect) : ''}`}
+                                    className="text-blue-600">Sign in</Link>
         </div>
       </div>
     </div>

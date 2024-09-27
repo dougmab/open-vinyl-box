@@ -1,9 +1,9 @@
 'use client';
 
 import {createContext, useEffect, useState} from "react";
-import {destroyCookie, parseCookies, setCookie} from "nookies";
 import api from "@/lib/api";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
+import {deleteCookie, getCookie, setCookie} from "cookies-next";
 
 interface SignInCredentials {
   email: string,
@@ -29,15 +29,16 @@ export const AuthContext = createContext({} as AuthContext);
 export const AuthProvider = ({children}: { children: React.ReactNode }) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const searchParams = useSearchParams();
 
   // Recover user data from the token
   useEffect(() => {
-    const {'ovb.token': token} = parseCookies();
+    const token = getCookie('ovb.token');
     if (token) {
       api.get('/user/me').then(({data}) => {
         setUser(data.result);
       }).catch(() => {
-        destroyCookie(undefined, 'ovb.token');
+        deleteCookie('ovb.token');
       });
     }
   }, []);
@@ -49,15 +50,21 @@ export const AuthProvider = ({children}: { children: React.ReactNode }) => {
       ...credentials
     });
 
-    setCookie(undefined, 'ovb.token', data.result.accessToken, {
+    setCookie('ovb.token', data.result.accessToken, {
       maxAge: data.result.expiresIn
     });
 
     api.defaults.headers['Authorization'] = `Bearer ${data.result.accessToken}`
 
+    console.log("Vai setar o user")
     setUser(data.result.user);
 
-    router.push("/");
+    console.log("Vai dar redirect")
+
+    router.push(searchParams.get('redirect') || "/");
+
+    console.log("deu o redirect")
+
   }
 
   return (
