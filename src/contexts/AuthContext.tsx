@@ -2,7 +2,6 @@
 
 import {createContext, useEffect, useState} from "react";
 import api from "@/lib/api";
-import {useRouter, useSearchParams} from "next/navigation";
 import {deleteCookie, getCookie, setCookie} from "cookies-next";
 
 interface SignInCredentials {
@@ -27,13 +26,12 @@ interface AuthContext {
 export const AuthContext = createContext({} as AuthContext);
 
 export const AuthProvider = ({children}: { children: React.ReactNode }) => {
-  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const searchParams = useSearchParams();
 
   // Recover user data from the token
   useEffect(() => {
     const token = getCookie('ovb.token');
+    console.log("Requesting user data")
     if (token) {
       api.get('/user/me').then(({data}) => {
         setUser(data.result);
@@ -56,15 +54,7 @@ export const AuthProvider = ({children}: { children: React.ReactNode }) => {
 
     api.defaults.headers['Authorization'] = `Bearer ${data.result.accessToken}`
 
-    console.log("Vai setar o user")
     setUser(data.result.user);
-
-    console.log("Vai dar redirect")
-
-    router.push(searchParams.get('redirect') || "/");
-
-    console.log("deu o redirect")
-
   }
 
   return (
