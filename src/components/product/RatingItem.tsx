@@ -3,7 +3,7 @@ import {RatingProps} from "@/components/product/RatingSection";
 import generateRating from "@/lib/generateRating";
 import {format} from "date-fns";
 
-export const RatingItem = ({rating: {userId, firstName, lastName, rating: value, comment, createdAt}}: {
+export const RatingItem = ({rating: {firstName, lastName, rating: value, comment, createdAt}}: {
   rating: RatingProps
 }) => {
   return (

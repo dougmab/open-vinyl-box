@@ -1,14 +1,15 @@
 'use client';
 
-import React, {ChangeEventHandler, Suspense, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import api from "@/lib/api";
 import {RatingItem} from "@/components/product/RatingItem";
 import Button from "@/components/Button";
-import {Rings, ThreeDots} from "react-loader-spinner";
+import {ThreeDots} from "react-loader-spinner";
 import {RatingStatistics} from "@/app/product/[id]/page";
 import generateRating from "@/lib/generateRating";
-import {FiStar} from "react-icons/fi";
 import {FaStar} from "react-icons/fa6";
+import {RatingForm} from "@/components/product/RatingForm";
+import {AuthContext} from "@/contexts/AuthContext";
 
 type SortParams = { value: string, order?: "ASC" | "DESC" };
 
@@ -29,27 +30,27 @@ interface CurrentPageInfo {
 }
 
 const getNextRatingsChunk = async (id: number, page: number, sort?: SortParams) => {
-  const response = await api.get(`/product/${id}/rating?size=1&page=${page}${sort ? "&sort=" + sort.value + (sort.order ? "," + sort.order : "") : ""}`);
+  const response = await api.get(`/product/${id}/rating?size=5&page=${page}${sort ? "&sort=" + sort.value + (sort.order ? "," + sort.order : "") : ""}`);
   return response.data.result;
 }
 
 export const RatingSection = ({productId, statistics}: { productId: number, statistics: RatingStatistics }) => {
   const [selectSort, setSelectSort] = useState<string>('new')
-  const [sort, setSort] = useState<SortParams>({ value: 'createdAt', order: 'DESC' });
+  const [sort, setSort] = useState<SortParams>({value: 'createdAt', order: 'DESC'});
 
   const [ratings, setRatings] = useState<RatingProps[]>([] as RatingProps[]);
   const [pageInfo, setPageInfo] = useState<CurrentPageInfo | null>(null)
   const [isLoading, setLoading] = useState(true);
 
-  const handleSorting = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const possiblesSorts: {[key: string]: SortParams} = {
-      new: { value: 'createdAt', order: 'DESC' },
-      old: { value: 'createdAt', order: 'ASC' },
-      negative: { value: 'ratingValue', order: 'ASC' },
-      positive: { value: 'ratingValue', order: 'DESC' }
-    }
+  const {isAuthenticated, user} = useContext(AuthContext);
 
-    console.log(e.target.value)
+  const handleSorting = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const possiblesSorts: { [key: string]: SortParams } = {
+      new: {value: 'createdAt', order: 'DESC'},
+      old: {value: 'createdAt', order: 'ASC'},
+      negative: {value: 'ratingValue', order: 'ASC'},
+      positive: {value: 'ratingValue', order: 'DESC'}
+    }
 
     // Reset the ratings and the page info
     setPageInfo(null)
@@ -60,19 +61,18 @@ export const RatingSection = ({productId, statistics}: { productId: number, stat
   }
 
   const addRatings = async () => {
+    if (!isAuthenticated) return;
     setLoading(true)
     const pageNumber = pageInfo ? pageInfo.number : -1;
     const response = await getNextRatingsChunk(productId, pageNumber + 1, sort);
-    setRatings([...ratings, ...response.content]);
+    setRatings([...ratings, ...response.content.filter((rating: RatingProps) => rating.userId !== user?.id)]);
     setPageInfo(response.page);
-    console.log(pageInfo)
     setLoading(false);
   }
 
   useEffect(() => {
-    console.log(sort)
     addRatings().catch(console.error);
-  }, [sort]);
+  }, [sort, isAuthenticated]);
 
   return (
     <section className="container p-4 border-t border-t-gray-200">
@@ -111,25 +111,29 @@ export const RatingSection = ({productId, statistics}: { productId: number, stat
             </div>
           </div>
         </div>
-      <div className="w-full h-full">
-        <div className="flex justify-between items-center">
-        <h4 className="text-xl font-bold">Featured opinions</h4>
-          <select name="sort" className="bg-gray-200 rounded-xl p-1 text-sm font-light" value={selectSort} onChange={handleSorting}>
-            <option value="new">Newest</option>
-            <option value="old">Oldest</option>
-            <option value="positive">Greatest</option>
-            <option value="negative">Lowest</option>
-          </select>
+        <div className="w-full h-full">
+          <div className="flex justify-between items-center">
+            <h4 className="text-xl font-bold">Featured opinions</h4>
+            <select name="sort" className="bg-gray-200 rounded-xl p-1 text-sm font-light" value={selectSort}
+                    onChange={handleSorting}>
+              <option value="new">Newest</option>
+              <option value="old">Oldest</option>
+              <option value="positive">Greatest</option>
+              <option value="negative">Lowest</option>
+            </select>
+          </div>
+          <div>
+            <RatingForm productId={productId}/>
+            {ratings.map((rating) => (
+              <RatingItem rating={rating} key={rating.userId}/>
+            ))}
+            {isLoading &&
+              <div className="flex justify-center"><ThreeDots visible={true} height={40} width={40} color="#8b0000"/>
+              </div>}
+          </div>
+          {pageInfo && pageInfo.number < pageInfo.totalPages - 1 && !isLoading &&
+            <Button onClick={addRatings} className="w-full py-2 mt-4 text-gray-600">Load more?</Button>}
         </div>
-        <div>
-          {ratings.map((rating) => (
-            <RatingItem rating={rating} key={rating.userId}/>
-          ))}
-          {isLoading && <div className="flex justify-center"><ThreeDots visible={true} height={40} width={40} color="#8b0000" /></div>}
-        </div>
-        {pageInfo && pageInfo.number < pageInfo.totalPages - 1 && !isLoading &&
-          <Button onClick={addRatings} className="w-full py-2 mt-4 text-gray-600">Load more?</Button>}
-      </div>
       </div>
     </section>
   )
