@@ -1,11 +1,17 @@
-import Hero from "@/app/components/Hero";
-import NewProducts from "@/app/components/NewProducts";
+'use client';
+
+import Hero from "@/components/Hero";
+import NewProducts from "@/components/product/NewProducts";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
-    return (
-        <main>
-            <Hero/>
-            <NewProducts/>
-        </main>
-    );
+  return (
+    <>
+      <Navbar/>
+      <main>
+        <Hero/>
+        <NewProducts/>
+      </main>
+    </>
+  );
 }
