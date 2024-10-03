@@ -43,7 +43,7 @@ const Register = () => {
                                                      }: CreateUser) => {
     setLoading(true)
     try {
-      const {data} = await api.post('/user', {
+      await api.post('/user', {
         firstName, lastName, email, password
       })
 

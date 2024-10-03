@@ -37,7 +37,6 @@ interface ProductDetails {
 
 const getProduct = async (id: number) => {
   try {
-    // console.log(cookies().get("ovb.token"))
     const apiResponse = await getApiClient(cookies).get("/product/" + id,);
     return apiResponse.data.result;
   } catch (error) {
@@ -78,7 +77,7 @@ const Page = async ({params}: { params: { id: number } }) => {
                 Add to Cart
               </Button>
               <label htmlFor="quantity" className=" flex items-center gap-2 w-1/4">Quantity:
-                <input id="quantity" type="number" defaultValue={1} className="w-10"/>
+                <input id="quantity" type="number" defaultValue={1} min={1} className="w-10"/>
               </label>
             </div>
             <h3 className="text-sm font-light text-gray-500 mt-4">Sold by <span
